@@ -1,9 +1,9 @@
 // client/src/pages/EmployeeToolPage.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Keep useNavigate import
-import { marked } from 'marked'; // Import the marked library
-import '../styles/EmployeeToolPage.css'; // Corrected CSS import path
+import { useNavigate } from 'react-router-dom';
+import { marked } from 'marked'; // For rendering markdown in results
+import '../styles/EmployeeToolPage.css'; // New CSS file for this page
 
 const EmployeeToolPage = () => {
   const [resumeFile, setResumeFile] = useState(null);
@@ -17,10 +17,12 @@ const EmployeeToolPage = () => {
   const [currentChatMessage, setCurrentChatMessage] = useState(''); // Text in the chat input box
   const [chatLoading, setLoadingChat] = useState(false); // Loading state for chat messages
   const [rawResumeContent, setRawResumeContent] = useState(''); // Store the parsed resume text for chat context
+  const [chatFile, setChatFile] = useState(null); // NEW: State for file uploaded in chat
   // --- End new chat state ---
 
-  const navigate = useNavigate(); // navigate is now explicitly used
+  const navigate = useNavigate();
   const chatMessagesEndRef = useRef(null); // Ref for auto-scrolling chat history
+  const chatFileInputRef = useRef(null); // NEW: Ref for hidden chat file input
 
   // Effect to scroll to the bottom of chat messages whenever they update
   useEffect(() => {
@@ -30,17 +32,13 @@ const EmployeeToolPage = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && (file.type === 'application/pdf' || file.type === 'text/plain')) {
-      setResumeFile(file);
-      setError(''); // Clear previous errors
-      // Clear previous analysis/chat when a new resume is selected
-      setAiAnalysis('');
-      setChatMessages([]);
-      setRawResumeContent(''); // Clear raw content too
-    } else {
-      setResumeFile(null);
-      setError('Please upload a PDF or plain text file for your resume.');
-    }
+    // Removed file type check here to allow all types at UI level
+    setResumeFile(file);
+    setError(''); // Clear previous errors
+    // Clear previous analysis/chat when a new resume is selected
+    setAiAnalysis('');
+    setChatMessages([]);
+    setRawResumeContent(''); // Clear raw content too
   };
 
   const handleJDChange = (e) => {
@@ -57,6 +55,7 @@ const EmployeeToolPage = () => {
     setAiAnalysis('');
     setChatMessages([]); // Clear chat history for a new analysis
     setRawResumeContent(''); // Clear raw content for a new analysis
+    setChatFile(null); // Clear chat file on new analysis
 
     if (!resumeFile) {
       setError('Please upload your resume file.');
@@ -99,7 +98,8 @@ const EmployeeToolPage = () => {
   // --- New Chat Functionality ---
   const handleChatSubmit = async (e) => {
     e.preventDefault();
-    if (!currentChatMessage.trim()) return; // Don't send empty messages
+    // Only send if there's text or a file
+    if (!currentChatMessage.trim() && !chatFile) return;
 
     // Ensure initial analysis was performed and context is available
     if (!aiAnalysis || !rawResumeContent || !jobDescription) {
@@ -110,13 +110,24 @@ const EmployeeToolPage = () => {
     setLoadingChat(true); // Set chat loading true
     setError(''); // Clear any previous errors
 
-    const newUserMessage = { role: 'user', content: currentChatMessage };
+    const newUserMessageContent = currentChatMessage.trim() || (chatFile ? `(File attached: ${chatFile.name})` : '');
+    const newUserMessage = { role: 'user', content: newUserMessageContent };
+    
     // Optimistically update chat messages with the user's new message
     setChatMessages((prevMessages) => [...prevMessages, newUserMessage]);
     setCurrentChatMessage(''); // Clear the input box immediately
+    setChatFile(null); // Clear the selected chat file
+
+
+    // TODO: Implement backend logic to handle file upload in chat-ai endpoint
+    // This current chat-ai endpoint only handles text.
+    // To process a new resume file in chat, you'd need a new endpoint or
+    // modify the existing one to accept file uploads and re-run analysis.
+    console.warn("File upload in chat is not yet fully implemented on the backend.");
+    console.log("Simulating AI response for file upload...");
 
     try {
-      // Send the entire conversation history, including initial context, to the backend
+      // For now, sending only text. If chatFile exists, its content won't be sent yet.
       const response = await axios.post('/api/chat-ai', {
         resumeContent: rawResumeContent, // Send the actual raw resume text
         jobDescription: jobDescription,
@@ -141,6 +152,28 @@ const EmployeeToolPage = () => {
   };
   // --- End New Chat Functionality ---
 
+  // handleKeyDown for chat input
+  const handleChatKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { // Check for Enter key without Shift
+      e.preventDefault(); // Prevent default (new line)
+      handleChatSubmit(e); // Call the submit function
+    }
+  };
+
+  // NEW: Handle file selection for chat
+  const handleChatFileChange = (e) => {
+    const file = e.target.files[0];
+    // Removed file type check here to allow all types at UI level
+    setChatFile(file);
+    setError('');
+    e.target.value = null; // Clear the input so same file can be selected again
+  };
+
+  // NEW: Trigger hidden file input click
+  const triggerChatFileInput = () => {
+    chatFileInputRef.current.click();
+  };
+
 
   return (
     <div className="employee-tool-page-container">
@@ -159,7 +192,7 @@ const EmployeeToolPage = () => {
             <input
               type="file"
               id="resume"
-              accept=".pdf,.txt"
+              // Removed accept attribute to allow all file types
               onChange={handleFileChange}
               className="form-input"
             />
@@ -227,18 +260,45 @@ const EmployeeToolPage = () => {
               </div>
 
               <form onSubmit={handleChatSubmit} className="chat-input-form">
-                <textarea
-                  value={currentChatMessage}
-                  onChange={(e) => setCurrentChatMessage(e.target.value)}
-                  placeholder="Ask a follow-up question..."
-                  rows="3" // Adjust rows as needed for default height
-                  className="chat-textarea"
-                  disabled={chatLoading} // Disable input while AI is thinking
-                ></textarea>
+                {/* NEW: Plus button for file upload */}
+                <button
+                  type="button"
+                  onClick={triggerChatFileInput}
+                  className="chat-file-button"
+                  title="Attach file"
+                  disabled={chatLoading}
+                >
+                  +
+                </button>
+                <input
+                  type="file"
+                  ref={chatFileInputRef}
+                  style={{ display: 'none' }} // Hide the actual input
+                  // Removed accept attribute to allow all file types
+                  onChange={handleChatFileChange}
+                />
+                
+                <div className="chat-input-wrapper"> {/* Wrapper for textarea and file name */}
+                  <textarea
+                    value={currentChatMessage}
+                    onChange={(e) => setCurrentChatMessage(e.target.value)}
+                    onKeyDown={handleChatKeyDown}
+                    placeholder="Ask a follow-up question..."
+                    rows="3" // Adjust rows as needed for default height
+                    className="chat-textarea"
+                    disabled={chatLoading} // Disable input while AI is thinking
+                  ></textarea>
+                  {chatFile && (
+                    <span className="chat-file-name">
+                      {chatFile.name} <button type="button" onClick={() => setChatFile(null)} className="remove-file-button">x</button>
+                    </span>
+                  )}
+                </div>
+
                 <button
                   type="submit"
                   className={`chat-send-button blue-button ${chatLoading ? 'loading-button' : ''}`}
-                  disabled={chatLoading}
+                  disabled={chatLoading || (!currentChatMessage.trim() && !chatFile)}
                 >
                   {chatLoading ? 'Sending...' : 'Send'}
                 </button>

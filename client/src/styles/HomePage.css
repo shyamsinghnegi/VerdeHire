@@ -60,27 +60,25 @@
   border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border */
   text-decoration: none;
   color: #e0e0e0; /* Light text */
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* Ensure smooth transition for all properties */
   min-width: 200px;
   cursor: pointer;
 }
 
 .employee-button:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px); /* Lift effect on hover */
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   background: rgba(50, 50, 50, 1); /* Slightly lighter dark on hover */
 }
 
-.employer-button.disabled {
-  opacity: 0.5; /* Mute the disabled button */
-  cursor: not-allowed;
-  background: rgba(30, 30, 30, 0.7); /* Darker muted background */
+/* NEW: Employer button hover effect */
+.employer-button:hover {
+  transform: translateY(-4px); /* Apply the same lift effect */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  background: rgba(50, 50, 50, 1); /* Apply the same background change */
 }
 
-.employer-button.disabled:hover {
-  transform: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
+/* Removed .employer-button.disabled styles */
 
 .button-text {
   font-size: 1.25rem;
@@ -95,6 +93,7 @@
   font-weight: 400;
 }
 
+/* The .coming-soon-badge is removed from JSX, so this rule is effectively unused now */
 .coming-soon-badge {
   position: absolute;
   top: -8px;

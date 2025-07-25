@@ -109,25 +109,35 @@
 /* Styles for the container holding Analysis and Chat */
 .analysis-output-container {
   margin-top: 32px;
-  border-top: 1px solid #333; /* Darker subtle separator line */
-  padding-top: 32px;
+  /* Removed border-top and padding-top from here, as canvases will have their own borders */
+  padding-top: 0; /* Reset padding-top */
+  border-top: none; /* Reset border-top */
+  display: flex;
+  flex-direction: column; /* Stack analysis and chat vertically */
+  gap: 30px; /* Space between the two "canvases" */
+  width: 100%; /* Take full width of parent card */
 }
 
-/* Styles for the Analysis Output */
+/* Styles for the Analysis Output - Enhanced "Canvas" Look */
 .analysis-output {
-  margin-bottom: 32px;
-  padding: 24px;
-  background-color: #2a2a2a; /* Darker background */
-  border: 1px solid #444; /* Darker border */
-  border-radius: 8px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Darker inner shadow */
+  margin-bottom: 0; /* Remove bottom margin as gap handles spacing */
+  padding: 30px; /* Increased padding */
+  background-color: #1f1f1f; /* Slightly darker background for the "canvases" */
+  border-radius: 12px; /* Slightly more rounded corners */
+  /* Enhanced box-shadow for a lifted, distinct look */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 188, 212, 0.1);
+  border: 2px solid #00bcd4; /* More prominent accent border */
+  overflow: hidden; /* Ensure content stays within bounds */
 }
 
 .analysis-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #00bcd4; /* Accent color */
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+  padding-bottom: 10px;
 }
 
 /* Styles for Markdown rendered content in Analysis Output */
@@ -146,141 +156,208 @@
 .analysis-content-markdown h5,
 .analysis-content-markdown h6 {
   font-weight: bold;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  margin-top: 2.5em; /* Increased top margin for better separation */
+  margin-bottom: 1em; /* Increased bottom margin */
   color: #00bcd4; /* Accent color for headings */
+  padding-bottom: 0.5em; /* Add some padding below heading */
+  border-bottom: 1px solid rgba(0, 188, 212, 0.1); /* Subtle separator line */
 }
 
-.analysis-content-markdown h1 { font-size: 2em; }
-.analysis-content-markdown h2 { font-size: 1.75em; }
-.analysis-content-markdown h3 { font-size: 1.5em; }
-.analysis-content-markdown h4 { font-size: 1.25em; }
-.analysis-content-markdown strong {
-  font-weight: bold;
-  color: #ffffff; /* Pure white for strong text */
+.analysis-content-markdown p {
+  margin-bottom: 1.2em; /* Slightly increased paragraph spacing */
+  padding-bottom: 0.5em; /* Add padding below paragraph */
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05); /* Subtle dashed line for separation */
 }
+/* Ensure the last paragraph in a section doesn't have a border */
+.analysis-content-markdown p:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+
+.analysis-content-markdown ul,
+.analysis-content-markdown ol {
+  margin-left: 25px; /* Increased left margin for lists */
+  margin-bottom: 1.5em; /* Increased bottom margin for lists */
+}
+
+.analysis-content-markdown li {
+  margin-bottom: 0.7em; /* Increased spacing between list items */
+}
+
+.analysis-content-markdown strong {
+  color: #f0f0f0;
+}
+
 .analysis-content-markdown em {
   font-style: italic;
-  color: #b0b0b0; /* Muted light text */
+  color: #b0b0b0;
 }
-.analysis-content-markdown p {
-  margin-bottom: 1em;
-}
-.analysis-content-markdown ul {
-  list-style-type: disc;
-  margin-left: 20px;
-  margin-bottom: 1em;
-}
-.analysis-content-markdown ol {
-  list-style-type: decimal;
-  margin-left: 20px;
-  margin-bottom: 1em;
-}
-.analysis-content-markdown li {
-  margin-bottom: 0.5em;
-}
-.analysis-content-markdown pre {
-  background-color: #3a3a3a; /* Darker background for code blocks */
-  border-radius: 4px;
-  padding: 1em;
-  overflow-x: auto; /* For code blocks */
-  margin-bottom: 1em;
-  color: #e0e0e0; /* Light text for code */
-}
+
 .analysis-content-markdown code {
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  background-color: #3a3a3a;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em;
+}
+
+.analysis-content-markdown pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px; /* Increased padding */
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1.5em; /* Increased margin */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border for code blocks */
+}
+
+.analysis-content-markdown pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 
-/* Overall Chat Section Styling */
-.chat-section {
-  margin-top: 32px;
-  background-color: #2a2a2a; /* Darker background for chat box */
-  border: 1px solid #444;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Darker subtle shadow */
+/* NEW: Styles for the Resume Viewer Canvas */
+.resume-viewer-canvas {
+  margin-top: 0; /* Gap handles spacing */
+  background-color: #1f1f1f; /* Consistent background with other canvases */
+  border: 2px solid #00bcd4; /* Consistent prominent accent border */
+  border-radius: 12px; /* Consistent rounded corners */
+  padding: 30px; /* Consistent padding */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 188, 212, 0.1);
+  overflow: hidden;
+  display: flex; /* Use flex to align title and pre block */
+  flex-direction: column;
 }
 
-.chat-title {
+.resume-viewer-title {
   font-size: 1.8rem;
   font-weight: bold;
   color: #00bcd4; /* Accent color */
   margin-bottom: 20px;
   text-align: center;
+  border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+  padding-bottom: 10px;
+}
+
+.resume-viewer-pre {
+  background-color: rgba(0, 0, 0, 0.3); /* Darker background for code/text area */
+  padding: 15px;
+  border-radius: 6px;
+  overflow: auto; /* Enable scrolling for long content */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
+  word-break: break-all; /* Break long words */
+  flex-grow: 1; /* Allow it to take available space */
+  color: #e0e0e0;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+}
+
+.resume-viewer-pre code {
+  background-color: transparent; /* Ensure code inside pre doesn't have its own background */
+  padding: 0;
+  border-radius: 0;
+}
+
+
+/* Overall Chat Section Styling - Enhanced "Canvas" Look */
+.chat-section {
+  margin-top: 0; /* Removed top margin as gap handles spacing */
+  background-color: #1f1f1f; /* Consistent background with analysis-output */
+  border: 2px solid #00bcd4; /* Consistent prominent accent border */
+  border-radius: 12px; /* Consistent rounded corners */
+  padding: 30px; /* Consistent padding */
+  /* Enhanced box-shadow for a lifted, distinct look */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 188, 212, 0.1);
 }
 
 /* Chat Messages Display Area */
 .chat-messages-display {
-  max-height: 400px;
-  overflow-y: auto;
-  border: 1px solid #555; /* Darker border */
-  border-radius: 5px;
-  padding: 15px;
-  background-color: #3a3a3a; /* Darker chat display background */
+  height: 450px; /* Increased fixed height */
+  max-height: 500px; /* Max height, allowing it to shrink on smaller screens */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 15px; /* Space for scrollbar */
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 15px; /* Space between messages */
+  /* Added subtle inner border for the chat display area */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #2a2a2a; /* Slightly lighter background for the message area */
+  border-radius: 8px; /* Rounded corners for the message area */
+  padding: 20px; /* Increased padding for messages */
 }
 
-/* Individual Chat Message Bubble */
+/* Scrollbar styling for chat messages */
+.chat-messages-display::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
 .chat-message {
   display: flex;
   flex-direction: column;
   padding: 10px 15px;
   border-radius: 10px;
-  max-width: 85%;
-  word-wrap: break-word;
+  max-width: 95%; /* Allow messages to take up most width */
+  word-wrap: break-word; /* Ensure long words break */
+  overflow-wrap: break-word; /* Modern equivalent */
 }
 
-/* Specific styling for user messages */
 .user-message {
-  align-self: flex-end;
-  background-color: #005f6b; /* Darker accent color for user */
+  align-self: flex-end; /* Align user messages to the right */
+  background-color: #007bff; /* Blue for user messages */
   color: white;
-  border-bottom-right-radius: 2px;
+  border-bottom-right-radius: 2px; /* Pointed corner */
 }
 
-/* Specific styling for AI (model) messages */
 .model-message {
-  align-self: flex-start;
-  background-color: #4a4a4a; /* Darker gray for AI */
-  color: #e0e0e0; /* Light text */
-  border-bottom-left-radius: 2px;
+  align-self: flex-start; /* Align AI messages to the left */
+  background-color: #4a4a4a; /* Darker gray for AI messages */
+  color: #e0e0e0;
+  border-bottom-left-radius: 2px; /* Pointed corner */
 }
 
-/* Role text (You: / AI:) within messages */
 .message-role {
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 0.9em;
-  color: #a0a0a0; /* Muted light text */
+  opacity: 0.8;
 }
 
-/* Content text within messages (for Markdown rendered content) */
 .message-content-markdown {
   font-size: 1rem;
   line-height: 1.5;
-  margin: 0;
+  /* Ensure markdown content also wraps */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-/* Specific styles for Markdown elements within message-content-markdown */
+/* Specific styles for Markdown elements within message-content-markdown (chat messages) */
 .message-content-markdown h1,
 .message-content-markdown h2,
 .message-content-markdown h3,
 .message-content-markdown h4,
 .message-content-markdown h5,
 .message-content-markdown h6 {
-  font-weight: bold;
   margin-top: 0.5em;
   margin-bottom: 0.25em;
-  color: #00bcd4; /* Accent color */
-  font-size: 1.1em;
+  font-size: 1.1em; /* Slightly smaller headings in chat */
 }
 .message-content-markdown strong {
   font-weight: bold;
@@ -302,53 +379,205 @@
   margin-bottom: 0.25em;
 }
 .message-content-markdown pre {
-  background-color: #3a3a3a;
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2); /* Use a slightly more transparent dark for code blocks */
   padding: 0.8em;
-  overflow-x: auto;
-  margin-bottom: 0.5em;
   font-size: 0.9em;
-  color: #e0e0e0;
 }
 .message-content-markdown code {
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  background-color: #3a3a3a;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background for inline code */
   padding: 0.2em 0.4em;
-  border-radius: 3px;
-  color: #e0e0e0;
 }
 
 
 /* Chat Input Form */
 .chat-input-form {
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  align-items: flex-end; /* Align items to the bottom */
+}
+
+/* NEW: Wrapper for textarea and file name */
+.chat-input-wrapper {
+  flex-grow: 1;
+  position: relative; /* For positioning the file name */
+  display: flex;
+  flex-direction: column; /* Stack textarea and file name */
 }
 
 .chat-textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #555; /* Darker border */
-  border-radius: 5px;
-  font-size: 1rem;
-  resize: vertical;
-  min-height: 80px;
-  box-sizing: border-box;
+  border-radius: 8px;
   background-color: #3a3a3a; /* Dark input background */
   color: #e0e0e0; /* Light text in input */
+  font-size: 1rem;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 60px; /* Minimum height for textarea */
+  max-height: 150px; /* Max height before scrolling */
 }
+
+.chat-textarea:focus {
+  outline: none;
+  border-color: #00bcd4;
+  box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.25);
+}
+
+/* NEW: Styles for the chat file button */
+.chat-file-button {
+  background-color: #00bcd4; /* Accent color */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 40px; /* Fixed width */
+  height: 40px; /* Fixed height */
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex-shrink: 0; /* Prevent shrinking in flex container */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.chat-file-button:hover {
+  background-color: #0097a7;
+  transform: translateY(-2px);
+}
+
+.chat-file-button:disabled {
+  background-color: #005f6b;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+/* NEW: Styles for displaying selected file name in chat */
+.chat-file-name {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  word-break: break-all; /* Ensure long file names wrap */
+}
+
+.remove-file-button {
+  background: none;
+  border: none;
+  color: #ff6b6b; /* Reddish color for remove */
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0 5px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.remove-file-button:hover {
+  color: #ff3b3b;
+}
+
 
 .chat-send-button {
-  width: 100%;
   padding: 12px 20px;
-  font-size: 1.1rem;
-  background-color: #007bff; /* Keep original blue for send, or change to accent */
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #00bcd4; /* Accent color for send button */
   color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex-shrink: 0; /* Prevent button from shrinking */
 }
 
-/* Ensure loading button style applies consistently */
-.loading-button {
-  background-color: #005f6b !important; /* Muted accent color for loading */
-  cursor: not-allowed !important;
+.chat-send-button:hover {
+  background-color: #0097a7;
+  transform: translateY(-2px);
+}
+
+.chat-send-button.loading-button {
+  background-color: #005f6b;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #343a40; /* Dark gray for back button */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #23272b;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .employee-tool-card {
+    padding: 25px;
+    max-width: 100%; /* Allow full width on smaller screens */
+  }
+  .employee-tool-title {
+    font-size: 2.2rem;
+  }
+  .employee-tool-description {
+    font-size: 1rem;
+  }
+  .submit-button {
+    font-size: 1.1rem;
+  }
+  .analysis-title,
+  .chat-title {
+    font-size: 1.5rem;
+  }
+  .chat-messages-display {
+    height: 350px; /* Slightly reduced height for mobile */
+  }
+  .chat-message {
+    max-width: 100%; /* Ensure messages don't overflow */
+  }
+  .chat-input-form {
+    flex-direction: column; /* Stack input and button vertically */
+    gap: 10px;
+  }
+  .chat-send-button {
+    width: 100%; /* Full width button */
+  }
+  .chat-file-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .employee-tool-page-container {
+    padding: 20px 10px;
+  }
+  .employee-tool-card {
+    padding: 15px;
+  }
+  .employee-tool-title {
+    font-size: 1.8rem;
+  }
+  .submit-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+  .analysis-output,
+  .chat-section {
+    padding: 20px;
+  }
 }

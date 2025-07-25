@@ -1,7 +1,7 @@
 // client/src/pages/HomePage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/HomePage.css'; // Corrected CSS import path
+import '../styles/HomePage.css';
 
 const HomePage = () => {
   return (
@@ -13,18 +13,18 @@ const HomePage = () => {
           <p className="tagline">Empowering careers with AI-driven insights and opportunities</p>
           
           <div className="options-container">
-            {/* Employee Button - Links to EmployeeToolPage */}
+            {/* Employee Button - Links to Employee Tool Page */}
             <Link to="/employee-tool" className="option-button employee-button">
               <span className="button-text">For Employees</span>
               <span className="button-subtitle">Get AI resume analysis</span>
             </Link>
             
-            {/* Employer Button - Disabled and shows "Coming Soon" */}
-            <div className="option-button employer-button disabled">
+            {/* Employer Button - Now active and links to Employer Tool Page */}
+            <Link to="/employer-tool" className="option-button employer-button"> {/* Changed to Link, removed disabled class */}
               <span className="button-text">For Employers</span>
-              <span className="button-subtitle">Coming Soon</span>
-              <div className="coming-soon-badge">Soon</div>
-            </div>
+              <span className="button-subtitle">Identify Best Resumes</span> {/* Updated subtitle */}
+              {/* Removed <div className="coming-soon-badge">Soon</div> */}
+            </Link>
           </div>
         </div>
       </section>
@@ -55,28 +55,28 @@ const HomePage = () => {
           <h2 className="section-heading">Why Choose VerdeHire?</h2>
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">⚡</div> {/* Using emoji for icon */}
+              <div className="feature-icon">⚡</div>
               <h3 className="feature-title">Instant AI Analysis</h3>
               <p className="feature-description">
                 Get immediate, data-driven feedback on your resume.
               </p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">💬</div> {/* Using emoji for icon */}
+              <div className="feature-icon">💬</div>
               <h3 className="feature-title">Personalized Coaching</h3>
               <p className="feature-description">
                 Chat directly with AI for tailored advice and improvements.
               </p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🎯</div> {/* Using emoji for icon */}
+              <div className="feature-icon">🎯</div>
               <h3 className="feature-title">Job Match Optimization</h3>
               <p className="feature-description">
                 Identify exactly what hiring managers are looking for.
               </p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">✨</div> {/* Using emoji for icon */}
+              <div className="feature-icon">✨</div>
               <h3 className="feature-title">User-Friendly Interface</h3>
               <p className="feature-description">
                 Simple and intuitive design for a seamless experience.
@@ -95,7 +95,6 @@ const HomePage = () => {
             <a href="#contact" className="footer-link">Contact Us</a>
           </div>
           <div className="social-links">
-            {/* Using emojis as placeholders for social icons */}
             <a href="#linkedin" className="social-link" aria-label="LinkedIn">💼</a>
             <a href="#github" className="social-link" aria-label="GitHub">🔗</a>
             <a href="#twitter" className="social-link" aria-label="Twitter">🐦</a>

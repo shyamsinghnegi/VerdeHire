@@ -1,29 +1,29 @@
-// server/server.js (or index.js)
+// server/server.js
 const express = require('express');
-const dotenv = require('dotenv').config(); // Load environment variables
-const connectDB = require('./config/db'); // Import DB connection
-const cors = require('cors'); // Import cors
-const aiRoutes = require('./routes/aiRoutes'); // Import new AI routes
+const cors = require('cors');
+const dotenv = require('dotenv'); // Ensure dotenv is imported
+
+dotenv.config(); // <--- THIS MUST BE CALLED EARLY TO LOAD .env variables
+
+const aiRoutes = require('./routes/aiRoutes'); // Import your AI routes
 
 const app = express();
-const port = process.env.PORT || 5000;
-
-// Connect to MongoDB (still needed for potential future data storage, but not for auth now)
-connectDB();
+const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); // Enable CORS for all origins (for development)
-app.use(express.json()); // To parse JSON request bodies
-app.use(express.urlencoded({ extended: false })); // To parse URL-encoded request bodies
+app.use(cors()); // Enable CORS for all origins
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
-// Mount AI routes
-app.use('/api', aiRoutes); // All AI routes will be prefixed with /api
+// Routes
+app.use('/api', aiRoutes); // Use your AI routes under /api prefix
 
-// --- Error Handling Middleware (optional but good practice) ---
-// If you have a custom error handler, place it here.
-// For example, if you have: const { errorHandler } = require('./middleware/errorMiddleware');
-// app.use(errorHandler);
+// Basic route for testing server
+app.get('/', (req, res) => {
+  res.send('VerdeHire Backend is running!');
+});
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

@@ -16,20 +16,7 @@ app.get('/api/health', (req, res) => {
   res.json({ message: 'Node.js Backend is operational!' });
 });
 
-// 2. Endpoint to check Python service health (proxied from Node.js)
-app.get('/api/python/health', async (req, res) => {
-  try {
-    const pythonServiceUrl = process.env.PYTHON_SERVICE_URL; // Get URL from .env
-    if (!pythonServiceUrl) {
-      return res.status(500).json({ message: 'Python service URL not configured in .env' });
-    }
-    const response = await axios.get(`${pythonServiceUrl}/health`);
-    res.json({ message: `Python AI Service: ${response.data.message}` });
-  } catch (error) {
-    console.error('Error connecting to Python service:', error.message);
-    res.status(500).json({ message: `Failed to connect to Python AI Service. Error: ${error.message}` });
-  }
-});
+
 app.use('/api/auth', authRoutes);
 
 // Production build static files (will be used later)

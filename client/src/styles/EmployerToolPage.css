@@ -1,0 +1,285 @@
+/* client/src/styles/EmployerToolPage.css */
+
+.employer-tool-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align to top for longer content */
+  padding: 40px 20px;
+  background-color: #1a1a1a; /* Consistent dark background */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  color: #e0e0e0; /* Light text color */
+  box-sizing: border-box;
+}
+
+.employer-tool-card {
+  background-color: #2a2a2a; /* Darker card background */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px; /* Wider for more content */
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 30px; /* Space before back button */
+}
+
+.employer-tool-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #00bcd4; /* Accent color */
+  margin-bottom: 20px;
+}
+
+.employer-tool-description {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #b0b0b0;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.employer-tool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Spacing between form groups */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.form-textarea,
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  font-size: 1rem;
+  box-sizing: border-box;
+  resize: vertical; /* Allow vertical resizing for textareas */
+}
+
+.form-textarea:focus,
+.form-input:focus {
+  outline: none;
+  border-color: #00bcd4;
+  box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.25);
+}
+
+.file-name-display {
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  margin-top: 5px;
+  word-break: break-all;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #007bff; /* Primary blue for submit */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.submit-button.loading-button {
+  background-color: #005f6b; /* Muted accent color for loading */
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #4a1c1c;
+  border: 1px solid #8e2b2b;
+  color: #ff8888;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Analysis Results Section */
+.analysis-results-container {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.results-overall-title {
+  font-size: 2rem;
+  color: #00bcd4;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.resume-result-card {
+  background-color: #333333;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.resume-result-title {
+  font-size: 1.5rem;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.resume-score {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.score-value {
+  color: #4CAF50; /* Green for score */
+  font-weight: bold;
+}
+
+.resume-analysis-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #b0b0b0;
+}
+
+/* Markdown specific styling within analysis content */
+.resume-analysis-content h1,
+.resume-analysis-content h2,
+.resume-analysis-content h3,
+.resume-analysis-content h4,
+.resume-analysis-content h5,
+.resume-analysis-content h6 {
+  color: #00bcd4; /* Accent color for headings */
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.resume-analysis-content p {
+  margin-bottom: 1em;
+}
+
+.resume-analysis-content ul,
+.resume-analysis-content ol {
+  margin-left: 20px;
+  margin-bottom: 1em;
+}
+
+.resume-analysis-content li {
+  margin-bottom: 0.5em;
+}
+
+.resume-analysis-content strong {
+  color: #f0f0f0;
+}
+
+.resume-analysis-content code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em;
+}
+
+.resume-analysis-content pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.resume-analysis-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #343a40; /* Dark gray for back button */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #23272b;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .employer-tool-card {
+    padding: 25px;
+  }
+  .employer-tool-title {
+    font-size: 2.2rem;
+  }
+  .employer-tool-description {
+    font-size: 1rem;
+  }
+  .submit-button {
+    font-size: 1.1rem;
+  }
+  .results-overall-title {
+    font-size: 1.8rem;
+  }
+  .resume-result-title {
+    font-size: 1.3rem;
+  }
+  .resume-score {
+    font-size: 1.1rem;
+  }
+  .resume-analysis-content {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .employer-tool-page-container {
+    padding: 20px 10px;
+  }
+  .employer-tool-card {
+    padding: 15px;
+  }
+  .employer-tool-title {
+    font-size: 1.8rem;
+  }
+  .submit-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+}
